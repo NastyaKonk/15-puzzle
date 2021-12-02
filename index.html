@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial=scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>15-puzzle</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+<body>
+    <div class="qwert">
+        <span id="move">Ходы: 0</span>
+        <canvas id = "canvas" width="400" height="400"></canvas>
+        <button onclick="restart()">Сброс</button>
+        
+    </div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+    var checkArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+    var size = 4;
+    var win = 0;
+    var move = 0;
+
+    function init(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle= "lightpink";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        for(var y = 0; y< size; y++){
+            for(var x = 0; x < size; x++){
+                ctx.fillStyle = "mediumslateblue";
+                ctx.fillRect(x*100, y*100, 98, 98);
+                ctx.font = "40px Arial";
+                ctx.fillStyle = "rgb(63, 35, 75)";
+                if(array [y*4 + x] < 10)
+                p = 40;
+                else 
+                p = 25;
+
+                if(array[y*4+x] != 0)
+                ctx.fillText(array[y*4 + x], x*100+p, y*100 + 65)
+            }
+        }
+        check = 0;
+        for(var b = 0; b < array.length; b++){
+            if(array[b] == checkArr[b])
+            check++
+            if(check == checkArr.length)
+            win = 1;
+
+        }
+
+        if(win ==1)
+        {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "transparent";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "90px Arial"
+        ctx.fillStyle = "rgb(63, 35, 75)";
+        ctx.fillText("You win", 40, 250);
+    }
+    }
+    
+    canvas.onmousemove = function(e){
+        myX = e.offsetX;
+        myY = e.offsetY;
+        x = parseInt(myX / 100);
+        y = parseInt(myY / 100);
+    }
+
+    canvas.addEventListener("click", change);
+    
+    function change(){
+        if(win == 0){
+            if(array[(y + 1) *4 + x] == 0){
+                var variant = array[(y) *4 + x];
+                array[(y) *4 + x] = 0;
+                array[(y + 1) *4 + x] = variant;
+                move++;
+            }
+            if(array[(y - 1) *4 + x] == 0){
+                var variant = array[(y) *4 +x];
+                array[(y) *4 + x] = 0;
+                array[(y - 1) *4 + x] = variant;
+                move++;
+            }
+            if(array[(y) *4 + x + 1] == 0){
+                var variant = array[(y) *4 + x];
+                array[(y) *4 + x] = 0;
+                array[(y) *4 + x + 1] = variant;
+                move++;
+            }
+            if(array[(y) *4 + x - 1] == 0){
+                var variant = array[(y) *4 + x];
+                array[(y) *4 + x] = 0;
+                array[(y) *4 + x - 1] = variant;
+                move++;
+            }
+            outMove();
+            init();
+        }
+
+    }
+
+    function rand(){
+        varx = 3;
+        vary = 3;
+        for(var i = 0; i< 9000; i++){
+            var random = Math.random() * 4;
+           random = parseInt(random);
+
+            if(random == 0 && varx !=0){
+                variable = array[vary * 4 + varx]
+                array[vary * 4 + varx] = array[vary * 4 + varx - 1];
+                array[vary * 4 + varx - 1] = variable;
+                varx--;
+            }
+            if(random == 1 && varx !=3){
+                variable = array[vary * 4 + varx]
+                array[vary * 4 + varx] = array[vary * 4 + varx + 1];
+                array[vary * 4 + varx + 1] = variable;
+                varx++;
+            }
+            if(random == 2 && vary !=0){
+                variable = array[vary * 4 + varx]
+                array[vary * 4 + varx] = array[(vary - 1) * 4 + varx];
+                array[(vary - 1) * 4 + varx] = variable;
+                vary--;
+            }
+            if(random == 3 && vary != 3){
+                variable = array[vary * 4 + varx]
+                array[vary * 4 + varx] = array[(vary + 1) * 4 + varx];
+                array[(vary + 1) * 4 + varx] = variable;
+                vary++;
+            }
+        }
+    }
+    
+    function restart(){
+        win = 0;
+        move = 0;
+        outMove();
+        array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+        rand();
+        init();
+    }
+
+function outMove(){
+    document.getElementById("move").textContent = `Ходы: ${move}`;
+}
+
+    rand();
+    init();
+</script>
+</body>
+</html>
