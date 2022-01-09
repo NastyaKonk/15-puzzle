@@ -26,9 +26,9 @@
     function init(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle= "lightpink";
-        ctx.fillRect(0,0, canvas.width, canvas.height);
+        //ctx.fillRect(0,0, canvas.width, canvas.height);
 
-        for(var y = 0; y< size; y++){
+        for(var y = 0; y < size; y++){
             for(var x = 0; x < size; x++){
                 ctx.fillStyle = "mediumslateblue";
                 ctx.fillRect(x*100, y*100, 98, 98);
@@ -105,37 +105,11 @@
     }
 
     function rand(){
-        varx = 3;
-        vary = 3;
-        for(var i = 0; i< 9000; i++){
-            var random = Math.random() * 4;
-           random = parseInt(random);
 
-            if(random == 0 && varx !=0){
-                variable = array[vary * 4 + varx]
-                array[vary * 4 + varx] = array[vary * 4 + varx - 1];
-                array[vary * 4 + varx - 1] = variable;
-                varx--;
-            }
-            if(random == 1 && varx !=3){
-                variable = array[vary * 4 + varx]
-                array[vary * 4 + varx] = array[vary * 4 + varx + 1];
-                array[vary * 4 + varx + 1] = variable;
-                varx++;
-            }
-            if(random == 2 && vary !=0){
-                variable = array[vary * 4 + varx]
-                array[vary * 4 + varx] = array[(vary - 1) * 4 + varx];
-                array[(vary - 1) * 4 + varx] = variable;
-                vary--;
-            }
-            if(random == 3 && vary != 3){
-                variable = array[vary * 4 + varx]
-                array[vary * 4 + varx] = array[(vary + 1) * 4 + varx];
-                array[(vary + 1) * 4 + varx] = variable;
-                vary++;
-            }
+         for(var i = 0; i< 9000; i++){
+            array.sort(()=>Math.random()-0.5)
         }
+        
     }
     
     function restart(){
